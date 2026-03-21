@@ -33,7 +33,7 @@ const Index = () => {
       if (soundMode === "letter") {
         speak(`${letter}! ${letter} de ${animal.name}`);
       } else {
-        speak(`${animal.name} faz ${animal.sound}`);
+        speak(`${animal.sound}`);
       }
       setTimeout(() => setActiveKey(null), 500);
     },
