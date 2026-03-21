@@ -12,6 +12,50 @@ const ROW_COLORS = [
   "bg-game-purple",
 ];
 
+const SOUND_PRONUNCIATIONS: Record<string, string> = {
+  "...": "som bem baixinho",
+  Bzzzz: "buzummm",
+  Zzzz: "zum zum",
+  Zummm: "zum zum",
+  Hisss: "ssiiiii",
+  Ssssss: "ssiiiii",
+  Tss: "ts",
+  "Tss tss": "ts ts",
+  Splash: "splásh",
+  Snort: "frunf",
+  Squiik: "cuíc",
+  Squii: "cuí",
+  Honk: "ronc",
+  Snap: "nhac",
+  "Snap snap": "nhac nhac",
+  "Boom boom": "bum bum",
+  "Buum buum": "bum bum",
+  "Ork ork": "órc órc",
+  "Wak wak": "uéc uéc",
+  Choff: "xóf",
+};
+
+const normalizeAnimalSound = (sound: string) => {
+  const trimmedSound = sound.trim();
+  const mappedSound = SOUND_PRONUNCIATIONS[trimmedSound] ?? trimmedSound;
+
+  return mappedSound
+    .replace(/bzz+/gi, "buzummm")
+    .replace(/\bzzz+\b/gi, "zum zum")
+    .replace(/hiss+/gi, "ssiiiii")
+    .replace(/sss+/gi, "ssiiiii")
+    .replace(/squi+k/gi, "cuíc")
+    .replace(/squii+/gi, "cuí")
+    .replace(/snort/gi, "frunf")
+    .replace(/splash/gi, "splásh")
+    .replace(/honk/gi, "ronc")
+    .replace(/snap/gi, "nhac")
+    .replace(/boom/gi, "bum")
+    .replace(/buum/gi, "bum")
+    .replace(/\s+/g, " ")
+    .trim();
+};
+
 const Index = () => {
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [currentAnimals, setCurrentAnimals] = useState(() => getRandomAnimals());
@@ -20,9 +64,20 @@ const Index = () => {
   const speak = useCallback((text: string) => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "pt-BR";
-    utterance.rate = 0.85;
-    utterance.pitch = 1.2;
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoice =
+      voices.find((voice) => voice.lang.toLowerCase().startsWith("pt-br")) ??
+      voices.find((voice) => voice.lang.toLowerCase().startsWith("pt"));
+
+    if (preferredVoice) {
+      utterance.voice = preferredVoice;
+      utterance.lang = preferredVoice.lang;
+    } else {
+      utterance.lang = "pt-BR";
+    }
+
+    utterance.rate = 0.82;
+    utterance.pitch = 1.05;
     window.speechSynthesis.speak(utterance);
   }, []);
 
@@ -33,7 +88,7 @@ const Index = () => {
       if (soundMode === "letter") {
         speak(`${letter}! ${letter} de ${animal.name}`);
       } else {
-        speak(`${animal.sound}`);
+        speak(normalizeAnimalSound(animal.sound));
       }
       setTimeout(() => setActiveKey(null), 500);
     },
