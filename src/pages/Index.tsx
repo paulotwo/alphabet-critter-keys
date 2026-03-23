@@ -89,7 +89,7 @@ const Index = () => {
       if (soundMode === "letter") {
         speak(`${letter}! ${letter} de ${animal.name}`);
       } else {
-        speak(normalizeAnimalSound(animal.sound));
+        playAnimalSound(animal.name);
       }
       setTimeout(() => setActiveKey(null), 500);
     },
