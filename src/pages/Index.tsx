@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { Shuffle, Volume2, PawPrint } from "lucide-react";
 import AlphabetKey from "@/components/AlphabetKey";
 import { LETTERS, getRandomAnimals } from "@/data/animals";
+import { playAnimalSound } from "@/data/animalSounds";
 
 const ROW_COLORS = [
   "bg-game-red",
@@ -88,7 +89,7 @@ const Index = () => {
       if (soundMode === "letter") {
         speak(`${letter}! ${letter} de ${animal.name}`);
       } else {
-        speak(normalizeAnimalSound(animal.sound));
+        playAnimalSound(animal.name);
       }
       setTimeout(() => setActiveKey(null), 500);
     },
