@@ -97,7 +97,7 @@ const Index = () => {
   );
 
   const shuffleAnimals = useCallback(() => {
-    setCurrentAnimals(getRandomAnimals());
+    setCurrentAnimals((prev) => getRandomAnimals(prev));
   }, []);
 
   const toggleSoundMode = useCallback(() => {
