@@ -159,11 +159,20 @@ export const ANIMALS_BY_LETTER: Record<string, AnimalEntry[]> = {
 
 export const LETTERS = Object.keys(ANIMALS_BY_LETTER);
 
-export function getRandomAnimals(): Record<string, AnimalEntry> {
+export function getRandomAnimals(
+  previous?: Record<string, AnimalEntry>
+): Record<string, AnimalEntry> {
   const result: Record<string, AnimalEntry> = {};
   for (const letter of LETTERS) {
     const animals = ANIMALS_BY_LETTER[letter];
-    result[letter] = animals[Math.floor(Math.random() * animals.length)];
+    if (animals.length <= 1) {
+      result[letter] = animals[0];
+    } else if (previous) {
+      const filtered = animals.filter((a) => a.name !== previous[letter]?.name);
+      result[letter] = filtered[Math.floor(Math.random() * filtered.length)];
+    } else {
+      result[letter] = animals[Math.floor(Math.random() * animals.length)];
+    }
   }
   return result;
 }
