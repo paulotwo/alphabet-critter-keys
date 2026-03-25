@@ -115,7 +115,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-4 p-4 sm:p-6 md:p-8 select-none">
+    <div className="min-h-screen flex flex-col items-center justify-center gap-4 p-4 sm:p-6 md:p-8 select-none" onContextMenu={(e) => e.preventDefault()}>
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-1">
         🎵 ABC dos Animais 🎵
       </h1>
