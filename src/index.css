@@ -41,10 +41,14 @@
 @layer base {
   * {
     @apply border-border;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
   }
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Fredoka', sans-serif;
+    overscroll-behavior: none;
   }
 }
 
