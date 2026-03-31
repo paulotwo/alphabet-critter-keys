@@ -1,8 +1,7 @@
 import { useState, useCallback } from "react";
-import { Shuffle, Volume2, PawPrint } from "lucide-react";
+import { Shuffle } from "lucide-react";
 import AlphabetKey from "@/components/AlphabetKey";
 import { LETTERS, getRandomAnimals } from "@/data/animals";
-import { playAnimalSound } from "@/data/animalSounds";
 
 const ROW_COLORS = [
   "bg-game-red",
@@ -13,54 +12,9 @@ const ROW_COLORS = [
   "bg-game-purple",
 ];
 
-const SOUND_PRONUNCIATIONS: Record<string, string> = {
-  "...": "som bem baixinho",
-  Bzzzz: "buzummm",
-  Zzzz: "zum zum",
-  Zummm: "zum zum",
-  Hisss: "ssiiiii",
-  Ssssss: "ssiiiii",
-  Tss: "ts",
-  "Tss tss": "ts ts",
-  Splash: "splásh",
-  Snort: "frunf",
-  Squiik: "cuíc",
-  Squii: "cuí",
-  Honk: "ronc",
-  Snap: "nhac",
-  "Snap snap": "nhac nhac",
-  "Boom boom": "bum bum",
-  "Buum buum": "bum bum",
-  "Ork ork": "órc órc",
-  "Wak wak": "uéc uéc",
-  Choff: "xóf",
-};
-
-const normalizeAnimalSound = (sound: string) => {
-  const trimmedSound = sound.trim();
-  const mappedSound = SOUND_PRONUNCIATIONS[trimmedSound] ?? trimmedSound;
-
-  return mappedSound
-    .replace(/bzz+/gi, "buzummm")
-    .replace(/\bzzz+\b/gi, "zum zum")
-    .replace(/hiss+/gi, "ssiiiii")
-    .replace(/sss+/gi, "ssiiiii")
-    .replace(/squi+k/gi, "cuíc")
-    .replace(/squii+/gi, "cuí")
-    .replace(/snort/gi, "frunf")
-    .replace(/splash/gi, "splásh")
-    .replace(/honk/gi, "ronc")
-    .replace(/snap/gi, "nhac")
-    .replace(/boom/gi, "bum")
-    .replace(/buum/gi, "bum")
-    .replace(/\s+/g, " ")
-    .trim();
-};
-
 const Index = () => {
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [currentAnimals, setCurrentAnimals] = useState(() => getRandomAnimals());
-  const [soundMode, setSoundMode] = useState<"letter" | "animal">("letter");
 
   const speak = useCallback((text: string) => {
     window.speechSynthesis.cancel();
@@ -86,25 +40,16 @@ const Index = () => {
     (letter: string) => {
       const animal = currentAnimals[letter];
       setActiveKey(letter);
-      if (soundMode === "letter") {
-        speak(`${letter}! ${letter} de ${animal.name}`);
-      } else {
-        playAnimalSound(animal.name);
-      }
+      speak(`${letter}! ${letter} de ${animal.name}`);
       setTimeout(() => setActiveKey(null), 500);
     },
-    [currentAnimals, soundMode, speak]
+    [currentAnimals, speak]
   );
 
   const shuffleAnimals = useCallback(() => {
     setCurrentAnimals((prev) => getRandomAnimals(prev));
   }, []);
 
-  const toggleSoundMode = useCallback(() => {
-    setSoundMode((prev) => (prev === "letter" ? "animal" : "letter"));
-  }, []);
-
-  // Split into rows of ~5
   const rows = [
     LETTERS.slice(0, 5),
     LETTERS.slice(5, 10),
@@ -130,22 +75,6 @@ const Index = () => {
         >
           <Shuffle className="w-4 h-4 sm:w-5 sm:h-5" />
           Trocar Animais
-        </button>
-        <button
-          onClick={toggleSoundMode}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-accent-foreground font-semibold text-sm sm:text-base transition-all duration-150 ease-out key-shadow hover:-translate-y-0.5 active:translate-y-0.5 active:key-shadow-pressed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        >
-          {soundMode === "letter" ? (
-            <>
-              <Volume2 className="w-4 h-4 sm:w-5 sm:h-5" />
-              Modo: Letra
-            </>
-          ) : (
-            <>
-              <PawPrint className="w-4 h-4 sm:w-5 sm:h-5" />
-              Modo: Som Animal
-            </>
-          )}
         </button>
       </div>
 
