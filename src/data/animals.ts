@@ -4,8 +4,10 @@ export interface AnimalEntry {
   sound: string;
 }
 
+export type Language = "pt" | "en";
+
 // Each emoji is used ONLY ONCE across the entire alphabet
-export const ANIMALS_BY_LETTER: Record<string, AnimalEntry[]> = {
+export const ANIMALS_PT_BY_LETTER: Record<string, AnimalEntry[]> = {
   A: [
     { name: "Abelha", emoji: "🐝", sound: "Bzzzz" },
     { name: "Águia", emoji: "🦅", sound: "Píííu" },
@@ -157,14 +159,19 @@ export const ANIMALS_BY_LETTER: Record<string, AnimalEntry[]> = {
   ],
 };
 
-export const LETTERS = Object.keys(ANIMALS_BY_LETTER);
+// Keep backward-compatible exports
+export const ANIMALS_BY_LETTER = ANIMALS_PT_BY_LETTER;
+export const LETTERS = Object.keys(ANIMALS_PT_BY_LETTER);
 
 export function getRandomAnimals(
+  animalsByLetter: Record<string, AnimalEntry[]>,
   previous?: Record<string, AnimalEntry>
 ): Record<string, AnimalEntry> {
   const result: Record<string, AnimalEntry> = {};
-  for (const letter of LETTERS) {
-    const animals = ANIMALS_BY_LETTER[letter];
+  const letters = Object.keys(animalsByLetter);
+  for (const letter of letters) {
+    const animals = animalsByLetter[letter];
+    if (!animals || animals.length === 0) continue;
     if (animals.length <= 1) {
       result[letter] = animals[0];
     } else if (previous) {
