@@ -145,7 +145,7 @@ export const ANIMALS_PT_BY_LETTER: Record<string, AnimalEntry[]> = {
     { name: "Veado", emoji: "🦌", sound: "Bram" },
   ],
   W: [
-    { name: "Wolverine", emoji: "🦡", sound: "Grrrrr" },
+    { name: "Wombat", emoji: "🦡", sound: "Grrrrr" },
   ],
   X: [
     { name: "Xexéu", emoji: "🐣", sound: "Tchiii" },
