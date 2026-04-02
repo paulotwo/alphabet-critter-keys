@@ -64,7 +64,7 @@ export const ANIMALS_PT_BY_LETTER: Record<string, AnimalEntry[]> = {
   H: [
     { name: "Hipopótamo", emoji: "🦛", sound: "Rooo" },
     { name: "Hamster", emoji: "🐹", sound: "Squiik" },
-    { name: "Husky", emoji: "🐕‍🦺", sound: "Auuuu" },
+    { name: "Hiena", emoji: "🐕‍🦺", sound: "Hehehe" },
   ],
   I: [
     { name: "Iguana", emoji: "🦎", sound: "Hisss" },
