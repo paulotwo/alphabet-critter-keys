@@ -126,7 +126,7 @@ export const ANIMALS_EN_BY_LETTER: Record<string, AnimalEntry[]> = {
     { name: "Wolf", emoji: "🐺", sound: "Howl" },
     { name: "Whale", emoji: "🐋", sound: "Whooo" },
     { name: "Worm", emoji: "🪱", sound: "" },
-    { name: "Wolverine", emoji: "🦡", sound: "Growl" },
+    { name: "Wombat", emoji: "🦡", sound: "Growl" },
   ],
   X: [
     { name: "X-ray fish", emoji: "🐟", sound: "Splash" },
