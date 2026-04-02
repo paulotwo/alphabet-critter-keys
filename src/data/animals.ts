@@ -38,7 +38,7 @@ export const ANIMALS_PT_BY_LETTER: Record<string, AnimalEntry[]> = {
     { name: "Dinossauro", emoji: "🦕", sound: "Roaarrr" },
     { name: "Dromedário", emoji: "🐪", sound: "Brrr" },
     { name: "Dodô", emoji: "🦤", sound: "Pó pó" },
-    { name: "Dálmata", emoji: "🐕", sound: "Au au" },
+    
   ],
   E: [
     { name: "Elefante", emoji: "🐘", sound: "Tróóó" },
@@ -64,7 +64,7 @@ export const ANIMALS_PT_BY_LETTER: Record<string, AnimalEntry[]> = {
   H: [
     { name: "Hipopótamo", emoji: "🦛", sound: "Rooo" },
     { name: "Hamster", emoji: "🐹", sound: "Squiik" },
-    { name: "Husky", emoji: "🐕‍🦺", sound: "Auuuu" },
+    { name: "Hiena", emoji: "🐕‍🦺", sound: "Hehehe" },
   ],
   I: [
     { name: "Iguana", emoji: "🦎", sound: "Hisss" },
@@ -145,13 +145,13 @@ export const ANIMALS_PT_BY_LETTER: Record<string, AnimalEntry[]> = {
     { name: "Veado", emoji: "🦌", sound: "Bram" },
   ],
   W: [
-    { name: "Wolverine", emoji: "🦡", sound: "Grrrrr" },
+    { name: "Wombat", emoji: "🦡", sound: "Grrrrr" },
   ],
   X: [
     { name: "Xexéu", emoji: "🐣", sound: "Tchiii" },
   ],
   Y: [
-    { name: "Yorkshire", emoji: "🐩", sound: "Au au" },
+    { name: "Yak", emoji: "🐂", sound: "Muuuu" },
   ],
   Z: [
     { name: "Zebra", emoji: "🦓", sound: "Ihhnn" },
