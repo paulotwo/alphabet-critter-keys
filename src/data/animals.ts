@@ -4,7 +4,7 @@ export interface AnimalEntry {
   sound: string;
 }
 
-export type Language = "pt" | "en";
+export type Language = "pt" | "en" | "es" | "fr" | "it" | "de";
 
 // Each emoji is used ONLY ONCE across the entire alphabet
 export const ANIMALS_PT_BY_LETTER: Record<string, AnimalEntry[]> = {

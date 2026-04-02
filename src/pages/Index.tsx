@@ -1,8 +1,13 @@
 import { useState, useCallback } from "react";
 import { Shuffle } from "lucide-react";
 import AlphabetKey from "@/components/AlphabetKey";
-import { LETTERS, ANIMALS_PT_BY_LETTER, getRandomAnimals, Language } from "@/data/animals";
+import LanguageSelector from "@/components/LanguageSelector";
+import { LETTERS, ANIMALS_PT_BY_LETTER, getRandomAnimals, Language, AnimalEntry } from "@/data/animals";
 import { ANIMALS_EN_BY_LETTER } from "@/data/animals_en";
+import { ANIMALS_ES_BY_LETTER } from "@/data/animals_es";
+import { ANIMALS_FR_BY_LETTER } from "@/data/animals_fr";
+import { ANIMALS_IT_BY_LETTER } from "@/data/animals_it";
+import { ANIMALS_DE_BY_LETTER } from "@/data/animals_de";
 
 const ROW_COLORS = [
   "bg-game-red",
@@ -14,7 +19,6 @@ const ROW_COLORS = [
 ];
 
 const LANG_CONFIG: Record<Language, {
-  flag: string;
   speechLang: string;
   preposition: string;
   subtitle: string;
@@ -22,7 +26,6 @@ const LANG_CONFIG: Record<Language, {
   spokenName: string;
 }> = {
   pt: {
-    flag: "🇧🇷",
     speechLang: "pt-BR",
     preposition: "de",
     subtitle: "Toque numa letra para ouvir o som!",
@@ -30,18 +33,49 @@ const LANG_CONFIG: Record<Language, {
     spokenName: "Português",
   },
   en: {
-    flag: "🇺🇸",
     speechLang: "en-US",
     preposition: "for",
     subtitle: "Tap a letter to hear the sound!",
     shuffleLabel: "Shuffle Animals",
     spokenName: "English",
   },
+  es: {
+    speechLang: "es-ES",
+    preposition: "de",
+    subtitle: "¡Toca una letra para escuchar el sonido!",
+    shuffleLabel: "Cambiar Animales",
+    spokenName: "Español",
+  },
+  fr: {
+    speechLang: "fr-FR",
+    preposition: "de",
+    subtitle: "Touche une lettre pour entendre le son !",
+    shuffleLabel: "Changer Animaux",
+    spokenName: "Français",
+  },
+  it: {
+    speechLang: "it-IT",
+    preposition: "di",
+    subtitle: "Tocca una lettera per sentire il suono!",
+    shuffleLabel: "Cambia Animali",
+    spokenName: "Italiano",
+  },
+  de: {
+    speechLang: "de-DE",
+    preposition: "wie",
+    subtitle: "Tippe auf einen Buchstaben, um den Klang zu hören!",
+    shuffleLabel: "Tiere wechseln",
+    spokenName: "Deutsch",
+  },
 };
 
-const ANIMALS_MAP: Record<Language, Record<string, import("@/data/animals").AnimalEntry[]>> = {
+const ANIMALS_MAP: Record<Language, Record<string, AnimalEntry[]>> = {
   pt: ANIMALS_PT_BY_LETTER,
   en: ANIMALS_EN_BY_LETTER,
+  es: ANIMALS_ES_BY_LETTER,
+  fr: ANIMALS_FR_BY_LETTER,
+  it: ANIMALS_IT_BY_LETTER,
+  de: ANIMALS_DE_BY_LETTER,
 };
 
 const Index = () => {
@@ -92,17 +126,13 @@ const Index = () => {
     setCurrentAnimals((prev) => getRandomAnimals(ANIMALS_MAP[language], prev));
   }, [language]);
 
-  const toggleLanguage = useCallback(() => {
-    setLanguage((prev) => {
-      const next: Language = prev === "pt" ? "en" : "pt";
-      const nextConfig = LANG_CONFIG[next];
-      setCurrentAnimals(getRandomAnimals(ANIMALS_MAP[next]));
-      // Speak the language name in the new language
-      setTimeout(() => {
-        speak(nextConfig.spokenName, nextConfig.speechLang);
-      }, 100);
-      return next;
-    });
+  const handleChangeLanguage = useCallback((newLang: Language) => {
+    setLanguage(newLang);
+    setCurrentAnimals(getRandomAnimals(ANIMALS_MAP[newLang]));
+    const nextConfig = LANG_CONFIG[newLang];
+    setTimeout(() => {
+      speak(nextConfig.spokenName, nextConfig.speechLang);
+    }, 100);
   }, [speak]);
 
   const rows = [
@@ -131,13 +161,7 @@ const Index = () => {
           <Shuffle className="w-4 h-4 sm:w-5 sm:h-5" />
           {config.shuffleLabel}
         </button>
-        <button
-          onClick={toggleLanguage}
-          aria-label="Change language"
-          className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-secondary text-secondary-foreground text-2xl sm:text-3xl transition-all duration-150 ease-out key-shadow hover:-translate-y-0.5 active:translate-y-0.5 active:key-shadow-pressed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        >
-          {config.flag}
-        </button>
+        <LanguageSelector language={language} onChangeLanguage={handleChangeLanguage} />
       </div>
 
       <div className="flex flex-col items-center gap-3 sm:gap-4 w-full max-w-4xl">
