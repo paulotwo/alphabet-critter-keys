@@ -5,15 +5,23 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
+function detectIOS() {
+  const ua = navigator.userAgent;
+  return /iphone|ipad|ipod/i.test(ua) && !(window as Window & { MSStream?: unknown }).MSStream;
+}
+
 export function usePwaInstall() {
   const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
+  const [dismissed, setDismissed] = useState(false);
 
   const isStandalone =
     window.matchMedia("(display-mode: standalone)").matches ||
     (navigator as Navigator & { standalone?: boolean }).standalone === true;
 
+  const isIOS = detectIOS();
+
   useEffect(() => {
-    if (isStandalone) return;
+    if (isStandalone || isIOS) return;
 
     const handler = (e: Event) => {
       e.preventDefault();
@@ -22,7 +30,7 @@ export function usePwaInstall() {
 
     window.addEventListener("beforeinstallprompt", handler);
     return () => window.removeEventListener("beforeinstallprompt", handler);
-  }, [isStandalone]);
+  }, [isStandalone, isIOS]);
 
   const install = async () => {
     if (!promptEvent) return;
@@ -31,7 +39,13 @@ export function usePwaInstall() {
     if (outcome === "accepted") setPromptEvent(null);
   };
 
-  const dismiss = () => setPromptEvent(null);
+  const dismiss = () => {
+    setPromptEvent(null);
+    setDismissed(true);
+  };
 
-  return { canInstall: !isStandalone && !!promptEvent, install, dismiss };
+  const canInstallAndroid = !isStandalone && !!promptEvent;
+  const canInstallIOS = isIOS && !isStandalone && !dismissed;
+
+  return { canInstall: canInstallAndroid, canInstallIOS, install, dismiss, isIOS };
 }
