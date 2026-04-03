@@ -12,31 +12,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>ABC dos Animais – Jogo Educativo do Alfabeto para Crianças</title>
-    <meta name="description" content="Aprenda o alfabeto brincando! Jogo infantil interativo com letras, animais e sons. Toque nas teclas para ouvir cada letra. Grátis e sem anúncios." />
-    <meta name="keywords" content="alfabeto infantil, jogo educativo, ABC animais, aprender letras, alfabetização, jogo para crianças, educação infantil, português" />
+    <meta name="description" content="Aprenda o alfabeto brincando! Jogo infantil interativo com letras, animais e sons em 6 idiomas: português, inglês, espanhol, francês, italiano e alemão. Gratuito e sem anúncios." />
+    <meta name="keywords" content="alfabeto infantil, jogo educativo, ABC animais, aprender letras, alfabetização, jogo para crianças, educação infantil, alphabet game, kids learning, abecedario animales" />
     <meta name="author" content="ABC dos Animais" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://alphabet-critter-keys.lovable.app/" />
     <meta name="theme-color" content="#FF5252" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="ABC Animais" />
     <link rel="apple-touch-icon" href="/pwa-192x192.png" />
 
+    <!-- Canonical & hreflang (SPA: all languages share the same URL) -->
+    <link rel="canonical" href="https://alphabet-critter-keys.lovable.app/" />
+    <link rel="alternate" hreflang="x-default" href="https://alphabet-critter-keys.lovable.app/" />
+    <link rel="alternate" hreflang="pt-BR"     href="https://alphabet-critter-keys.lovable.app/" />
+    <link rel="alternate" hreflang="en"        href="https://alphabet-critter-keys.lovable.app/" />
+    <link rel="alternate" hreflang="es"        href="https://alphabet-critter-keys.lovable.app/" />
+    <link rel="alternate" hreflang="fr"        href="https://alphabet-critter-keys.lovable.app/" />
+    <link rel="alternate" hreflang="it"        href="https://alphabet-critter-keys.lovable.app/" />
+    <link rel="alternate" hreflang="de"        href="https://alphabet-critter-keys.lovable.app/" />
+
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="ABC dos Animais – Jogo Educativo do Alfabeto" />
-    <meta property="og:description" content="Aprenda o alfabeto brincando! Jogo infantil interativo com letras, animais e sons para crianças." />
-    <meta property="og:url" content="https://alphabet-critter-keys.lovable.app/" />
-    <meta property="og:locale" content="pt_BR" />
-    <meta property="og:site_name" content="ABC dos Animais" />
-    <meta property="og:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f9c260ca-dea4-4550-9831-43555f2ccb89/id-preview-14dcaf19--c2a7bf0a-2b1c-4f37-9026-9f01737382b1.lovable.app-1774126074521.png" />
+    <meta property="og:type"              content="website" />
+    <meta property="og:title"             content="ABC dos Animais – Jogo Educativo do Alfabeto" />
+    <meta property="og:description"       content="Aprenda o alfabeto brincando! Jogo infantil interativo com letras, animais e sons em 6 idiomas. Gratuito e sem anúncios." />
+    <meta property="og:url"               content="https://alphabet-critter-keys.lovable.app/" />
+    <meta property="og:site_name"         content="ABC dos Animais" />
+    <meta property="og:locale"            content="pt_BR" />
+    <meta property="og:locale:alternate"  content="en_US" />
+    <meta property="og:locale:alternate"  content="es_ES" />
+    <meta property="og:locale:alternate"  content="fr_FR" />
+    <meta property="og:locale:alternate"  content="it_IT" />
+    <meta property="og:locale:alternate"  content="de_DE" />
+    <meta property="og:image"             content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f9c260ca-dea4-4550-9831-43555f2ccb89/id-preview-14dcaf19--c2a7bf0a-2b1c-4f37-9026-9f01737382b1.lovable.app-1774126074521.png" />
+    <meta property="og:image:width"       content="1200" />
+    <meta property="og:image:height"      content="630" />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ABC dos Animais – Jogo Educativo do Alfabeto" />
-    <meta name="twitter:description" content="Aprenda o alfabeto brincando! Jogo infantil interativo com letras, animais e sons para crianças." />
-    <meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f9c260ca-dea4-4550-9831-43555f2ccb89/id-preview-14dcaf19--c2a7bf0a-2b1c-4f37-9026-9f01737382b1.lovable.app-1774126074521.png" />
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="ABC dos Animais – Jogo Educativo do Alfabeto" />
+    <meta name="twitter:description" content="Aprenda o alfabeto brincando! Jogo infantil interativo com letras, animais e sons em 6 idiomas. Gratuito e sem anúncios." />
+    <meta name="twitter:image"       content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f9c260ca-dea4-4550-9831-43555f2ccb89/id-preview-14dcaf19--c2a7bf0a-2b1c-4f37-9026-9f01737382b1.lovable.app-1774126074521.png" />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -44,23 +60,37 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "ABC dos Animais",
-      "description": "Jogo educativo interativo para crianças aprenderem o alfabeto com animais e sons.",
+      "alternateName": ["ABC Animals", "Abecedario de Animales", "ABC des Animaux", "ABC degli Animali", "ABC der Tiere"],
+      "description": "Jogo educativo interativo para crianças aprenderem o alfabeto com animais e sons em 6 idiomas.",
       "url": "https://alphabet-critter-keys.lovable.app/",
       "applicationCategory": "EducationalApplication",
       "operatingSystem": "All",
+      "inLanguage": ["pt-BR", "en", "es", "fr", "it", "de"],
+      "availableLanguage": [
+        { "@type": "Language", "name": "Portuguese", "alternateName": "pt-BR" },
+        { "@type": "Language", "name": "English",    "alternateName": "en" },
+        { "@type": "Language", "name": "Spanish",    "alternateName": "es" },
+        { "@type": "Language", "name": "French",     "alternateName": "fr" },
+        { "@type": "Language", "name": "Italian",    "alternateName": "it" },
+        { "@type": "Language", "name": "German",     "alternateName": "de" }
+      ],
       "audience": {
         "@type": "EducationalAudience",
         "educationalRole": "student",
-        "suggestedMinAge": 2,
-        "suggestedMaxAge": 7
+        "typicalAgeRange": "2-7"
       },
-      "inLanguage": "pt-BR",
       "isAccessibleForFree": true,
       "offers": {
         "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "BRL"
-      }
+        "price": "0"
+      },
+      "featureList": [
+        "Alfabeto interativo com sons",
+        "Animais para cada letra",
+        "Síntese de voz por idioma",
+        "Instalável como PWA",
+        "Funciona sem internet"
+      ]
     }
     </script>
   </head>
