@@ -26,6 +26,15 @@ const SplashScreen = ({ language, onChangeLanguage, startLabel, onStart }: Splas
     const warmup = new SpeechSynthesisUtterance(" ");
     warmup.volume = 0;
     window.speechSynthesis.speak(warmup);
+
+    // Request fullscreen only when NOT running as an installed PWA
+    const isPwa =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (navigator as Navigator & { standalone?: boolean }).standalone === true;
+    if (!isPwa && document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+
     onStart();
   };
 
