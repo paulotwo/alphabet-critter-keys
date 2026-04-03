@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { Shuffle } from "lucide-react";
 import AlphabetKey from "@/components/AlphabetKey";
 import LanguageSelector from "@/components/LanguageSelector";
+import SplashScreen from "@/components/SplashScreen";
 import { LETTERS, ANIMALS_PT_BY_LETTER, getRandomAnimals, Language, AnimalEntry } from "@/data/animals";
 import { ANIMALS_EN_BY_LETTER } from "@/data/animals_en";
 import { ANIMALS_ES_BY_LETTER } from "@/data/animals_es";
@@ -24,6 +25,7 @@ const LANG_CONFIG: Record<Language, {
   subtitle: string;
   shuffleLabel: string;
   spokenName: string;
+  startLabel: string;
 }> = {
   pt: {
     speechLang: "pt-BR",
@@ -31,6 +33,7 @@ const LANG_CONFIG: Record<Language, {
     subtitle: "Toque numa letra para ouvir o som!",
     shuffleLabel: "Trocar Animais",
     spokenName: "Português",
+    startLabel: "Começar!",
   },
   en: {
     speechLang: "en-US",
@@ -38,6 +41,7 @@ const LANG_CONFIG: Record<Language, {
     subtitle: "Tap a letter to hear the sound!",
     shuffleLabel: "Shuffle Animals",
     spokenName: "English",
+    startLabel: "Start!",
   },
   es: {
     speechLang: "es-ES",
@@ -45,6 +49,7 @@ const LANG_CONFIG: Record<Language, {
     subtitle: "¡Toca una letra para escuchar el sonido!",
     shuffleLabel: "Cambiar Animales",
     spokenName: "Español",
+    startLabel: "¡Empezar!",
   },
   fr: {
     speechLang: "fr-FR",
@@ -52,6 +57,7 @@ const LANG_CONFIG: Record<Language, {
     subtitle: "Touche une lettre pour entendre le son !",
     shuffleLabel: "Changer Animaux",
     spokenName: "Français",
+    startLabel: "Commencer !",
   },
   it: {
     speechLang: "it-IT",
@@ -59,6 +65,7 @@ const LANG_CONFIG: Record<Language, {
     subtitle: "Tocca una lettera per sentire il suono!",
     shuffleLabel: "Cambia Animali",
     spokenName: "Italiano",
+    startLabel: "Inizia!",
   },
   de: {
     speechLang: "de-DE",
@@ -66,6 +73,7 @@ const LANG_CONFIG: Record<Language, {
     subtitle: "Tippe auf einen Buchstaben, um den Klang zu hören!",
     shuffleLabel: "Tiere wechseln",
     spokenName: "Deutsch",
+    startLabel: "Los geht's!",
   },
 };
 
@@ -79,6 +87,7 @@ const ANIMALS_MAP: Record<Language, Record<string, AnimalEntry[]>> = {
 };
 
 const Index = () => {
+  const [showSplash, setShowSplash] = useState(true);
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [language, setLanguage] = useState<Language>("pt");
   const [currentAnimals, setCurrentAnimals] = useState(() =>
@@ -143,6 +152,17 @@ const Index = () => {
     LETTERS.slice(20, 23),
     LETTERS.slice(23, 26),
   ];
+
+  if (showSplash) {
+    return (
+      <SplashScreen
+        language={language}
+        onChangeLanguage={handleChangeLanguage}
+        startLabel={config.startLabel}
+        onStart={() => setShowSplash(false)}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4 p-4 sm:p-6 md:p-8 select-none" onContextMenu={(e) => e.preventDefault()}>
