@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { EMOJI_TO_IMAGE } from "@/data/animalImages";
 
 interface AlphabetKeyProps {
   letter: string;
@@ -11,6 +12,8 @@ interface AlphabetKeyProps {
 
 const AlphabetKey = memo(
   ({ letter, animal, emoji, colorClass, isActive, onPress }: AlphabetKeyProps) => {
+    const imageSrc = EMOJI_TO_IMAGE[emoji];
+
     return (
       <button
         onClick={onPress}
@@ -26,9 +29,21 @@ const AlphabetKey = memo(
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
         `}
       >
-        <span className="text-2xl sm:text-3xl md:text-4xl leading-none select-none">
-          {emoji}
-        </span>
+        {imageSrc ? (
+          <img
+            src={imageSrc}
+            alt={animal}
+            loading="lazy"
+            width={512}
+            height={512}
+            className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain select-none pointer-events-none"
+            draggable={false}
+          />
+        ) : (
+          <span className="text-2xl sm:text-3xl md:text-4xl leading-none select-none">
+            {emoji}
+          </span>
+        )}
         <span
           className="text-xl sm:text-2xl md:text-3xl font-bold leading-none mt-0.5 drop-shadow-sm"
           style={{ color: "rgba(255,255,255,0.95)", textShadow: "0 1px 2px rgba(0,0,0,0.2)" }}
