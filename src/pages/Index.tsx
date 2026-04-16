@@ -180,6 +180,7 @@ const Index = () => {
         onChangeLanguage={handleChangeLanguage}
         startLabel={config.startLabel}
         onStart={() => setShowSplash(false)}
+        onShare={handleShare}
       />
     );
   }
