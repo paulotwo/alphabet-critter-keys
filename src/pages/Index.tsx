@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Shuffle, Share2 } from "lucide-react";
+import { Shuffle } from "lucide-react";
 import AlphabetKey from "@/components/AlphabetKey";
 import LanguageSelector from "@/components/LanguageSelector";
 import SplashScreen from "@/components/SplashScreen";
@@ -201,13 +201,6 @@ const Index = () => {
         >
           <Shuffle className="w-4 h-4 sm:w-5 sm:h-5" />
           {config.shuffleLabel}
-        </button>
-        <button
-          onClick={handleShare}
-          className="rounded-xl bg-card/80 backdrop-blur px-3 py-2 text-lg transition-transform hover:scale-105 active:scale-95 shadow"
-          title="Share"
-        >
-          <Share2 size={20} className="text-foreground" />
         </button>
         <LanguageSelector language={language} onChangeLanguage={handleChangeLanguage} />
       </div>
