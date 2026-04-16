@@ -142,6 +142,19 @@ const Index = () => {
     setCurrentAnimals((prev) => getRandomAnimals(ANIMALS_MAP[language], prev));
   }, [language]);
 
+  const handleShare = useCallback(async () => {
+    const shareData = {
+      title: "ABC dos Animais",
+      text: config.shareText,
+      url: window.location.href,
+    };
+    if (navigator.share) {
+      try { await navigator.share(shareData); } catch { /* user cancelled */ }
+    } else {
+      await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+    }
+  }, [config.shareText]);
+
   const handleChangeLanguage = useCallback((newLang: Language) => {
     setLanguage(newLang);
     setCurrentAnimals(getRandomAnimals(ANIMALS_MAP[newLang]));
@@ -187,6 +200,13 @@ const Index = () => {
         >
           <Shuffle className="w-4 h-4 sm:w-5 sm:h-5" />
           {config.shuffleLabel}
+        </button>
+        <button
+          onClick={handleShare}
+          className="rounded-xl bg-card/80 backdrop-blur px-3 py-2 text-lg transition-transform hover:scale-105 active:scale-95 shadow"
+          title="Share"
+        >
+          <Share2 size={20} className="text-foreground" />
         </button>
         <LanguageSelector language={language} onChangeLanguage={handleChangeLanguage} />
       </div>
