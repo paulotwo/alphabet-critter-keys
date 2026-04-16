@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Shuffle } from "lucide-react";
+import { Shuffle, Share2 } from "lucide-react";
 import AlphabetKey from "@/components/AlphabetKey";
 import LanguageSelector from "@/components/LanguageSelector";
 import SplashScreen from "@/components/SplashScreen";
@@ -34,6 +34,7 @@ const LANG_CONFIG: Record<Language, {
     shuffleLabel: "Trocar Animais",
     spokenName: "Português",
     startLabel: "Começar!",
+    shareText: "Venha aprender o alfabeto com animais! 🎵🐾",
   },
   en: {
     speechLang: "en-US",
@@ -42,6 +43,7 @@ const LANG_CONFIG: Record<Language, {
     shuffleLabel: "Shuffle Animals",
     spokenName: "English",
     startLabel: "Start!",
+    shareText: "Come learn the alphabet with animals! 🎵🐾",
   },
   es: {
     speechLang: "es-ES",
@@ -50,6 +52,7 @@ const LANG_CONFIG: Record<Language, {
     shuffleLabel: "Cambiar Animales",
     spokenName: "Español",
     startLabel: "¡Empezar!",
+    shareText: "¡Ven a aprender el alfabeto con animales! 🎵🐾",
   },
   fr: {
     speechLang: "fr-FR",
@@ -58,6 +61,7 @@ const LANG_CONFIG: Record<Language, {
     shuffleLabel: "Changer Animaux",
     spokenName: "Français",
     startLabel: "Commencer !",
+    shareText: "Viens apprendre l'alphabet avec des animaux ! 🎵🐾",
   },
   it: {
     speechLang: "it-IT",
@@ -66,6 +70,7 @@ const LANG_CONFIG: Record<Language, {
     shuffleLabel: "Cambia Animali",
     spokenName: "Italiano",
     startLabel: "Inizia!",
+    shareText: "Vieni a imparare l'alfabeto con gli animali! 🎵🐾",
   },
   de: {
     speechLang: "de-DE",
@@ -74,6 +79,7 @@ const LANG_CONFIG: Record<Language, {
     shuffleLabel: "Tiere wechseln",
     spokenName: "Deutsch",
     startLabel: "Los geht's!",
+    shareText: "Komm und lerne das Alphabet mit Tieren! 🎵🐾",
   },
 };
 
