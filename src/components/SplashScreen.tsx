@@ -2,16 +2,19 @@ import { useEffect } from "react";
 import { Language } from "@/data/animals";
 import LanguageSelector from "@/components/LanguageSelector";
 
+import { Share2 } from "lucide-react";
+
 interface SplashScreenProps {
   language: Language;
   onChangeLanguage: (lang: Language) => void;
   startLabel: string;
   onStart: () => void;
+  onShare: () => void;
 }
 
 const DECO_EMOJIS = ["🐘", "🦁", "🐬", "🦜", "🐸", "🦋", "🐧", "🦊"];
 
-const SplashScreen = ({ language, onChangeLanguage, startLabel, onStart }: SplashScreenProps) => {
+const SplashScreen = ({ language, onChangeLanguage, startLabel, onStart, onShare }: SplashScreenProps) => {
   // Pre-load voice list as soon as the splash screen mounts (no user gesture needed)
   useEffect(() => {
     const loadVoices = () => { window.speechSynthesis.getVoices(); };
@@ -44,7 +47,14 @@ const SplashScreen = ({ language, onChangeLanguage, startLabel, onStart }: Splas
       onContextMenu={(e) => e.preventDefault()}
     >
       {/* Language selector top-right */}
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+        <button
+          onClick={onShare}
+          className="rounded-xl bg-card/80 backdrop-blur px-3 py-2 text-lg transition-transform hover:scale-105 active:scale-95 shadow"
+          title="Share"
+        >
+          <Share2 size={20} className="text-foreground" />
+        </button>
         <LanguageSelector language={language} onChangeLanguage={onChangeLanguage} />
       </div>
 
