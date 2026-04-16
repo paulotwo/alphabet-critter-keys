@@ -26,6 +26,7 @@ const LANG_CONFIG: Record<Language, {
   shuffleLabel: string;
   spokenName: string;
   startLabel: string;
+  shareText: string;
 }> = {
   pt: {
     speechLang: "pt-BR",
