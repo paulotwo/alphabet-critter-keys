@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Shuffle } from "lucide-react";
+import { Shuffle, Share2 } from "lucide-react";
 import AlphabetKey from "@/components/AlphabetKey";
 import LanguageSelector from "@/components/LanguageSelector";
 import SplashScreen from "@/components/SplashScreen";
@@ -26,6 +26,7 @@ const LANG_CONFIG: Record<Language, {
   shuffleLabel: string;
   spokenName: string;
   startLabel: string;
+  shareText: string;
 }> = {
   pt: {
     speechLang: "pt-BR",
@@ -34,6 +35,7 @@ const LANG_CONFIG: Record<Language, {
     shuffleLabel: "Trocar Animais",
     spokenName: "Português",
     startLabel: "Começar!",
+    shareText: "Venha aprender o alfabeto com animais! 🎵🐾",
   },
   en: {
     speechLang: "en-US",
@@ -42,6 +44,7 @@ const LANG_CONFIG: Record<Language, {
     shuffleLabel: "Shuffle Animals",
     spokenName: "English",
     startLabel: "Start!",
+    shareText: "Come learn the alphabet with animals! 🎵🐾",
   },
   es: {
     speechLang: "es-ES",
@@ -50,6 +53,7 @@ const LANG_CONFIG: Record<Language, {
     shuffleLabel: "Cambiar Animales",
     spokenName: "Español",
     startLabel: "¡Empezar!",
+    shareText: "¡Ven a aprender el alfabeto con animales! 🎵🐾",
   },
   fr: {
     speechLang: "fr-FR",
@@ -58,6 +62,7 @@ const LANG_CONFIG: Record<Language, {
     shuffleLabel: "Changer Animaux",
     spokenName: "Français",
     startLabel: "Commencer !",
+    shareText: "Viens apprendre l'alphabet avec des animaux ! 🎵🐾",
   },
   it: {
     speechLang: "it-IT",
@@ -66,6 +71,7 @@ const LANG_CONFIG: Record<Language, {
     shuffleLabel: "Cambia Animali",
     spokenName: "Italiano",
     startLabel: "Inizia!",
+    shareText: "Vieni a imparare l'alfabeto con gli animali! 🎵🐾",
   },
   de: {
     speechLang: "de-DE",
@@ -74,6 +80,7 @@ const LANG_CONFIG: Record<Language, {
     shuffleLabel: "Tiere wechseln",
     spokenName: "Deutsch",
     startLabel: "Los geht's!",
+    shareText: "Komm und lerne das Alphabet mit Tieren! 🎵🐾",
   },
 };
 
@@ -135,6 +142,19 @@ const Index = () => {
     setCurrentAnimals((prev) => getRandomAnimals(ANIMALS_MAP[language], prev));
   }, [language]);
 
+  const handleShare = useCallback(async () => {
+    const shareData = {
+      title: "ABC dos Animais",
+      text: config.shareText,
+      url: window.location.href,
+    };
+    if (navigator.share) {
+      try { await navigator.share(shareData); } catch { /* user cancelled */ }
+    } else {
+      await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+    }
+  }, [config.shareText]);
+
   const handleChangeLanguage = useCallback((newLang: Language) => {
     setLanguage(newLang);
     setCurrentAnimals(getRandomAnimals(ANIMALS_MAP[newLang]));
@@ -160,6 +180,7 @@ const Index = () => {
         onChangeLanguage={handleChangeLanguage}
         startLabel={config.startLabel}
         onStart={() => setShowSplash(false)}
+        onShare={handleShare}
       />
     );
   }
@@ -180,6 +201,13 @@ const Index = () => {
         >
           <Shuffle className="w-4 h-4 sm:w-5 sm:h-5" />
           {config.shuffleLabel}
+        </button>
+        <button
+          onClick={handleShare}
+          className="rounded-xl bg-card/80 backdrop-blur px-3 py-2 text-lg transition-transform hover:scale-105 active:scale-95 shadow"
+          title="Share"
+        >
+          <Share2 size={20} className="text-foreground" />
         </button>
         <LanguageSelector language={language} onChangeLanguage={handleChangeLanguage} />
       </div>
