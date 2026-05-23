@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx tsc:*)"
+      "Read",
+      "Bash",
+      "WebSearch",
+      "WebFetch",
+      "PowerShell"
     ]
   }
 }
