@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://alphabet-critter-keys.ksepisteme.com.br/sitemap.xml
