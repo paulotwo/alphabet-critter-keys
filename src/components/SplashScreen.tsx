@@ -8,6 +8,7 @@ import { Share2 } from "lucide-react";
 
 interface SplashScreenProps {
   language: Language;
+  title: string;
   onChangeLanguage: (lang: Language) => void;
   startLabel: string;
   onStart: () => void;
@@ -16,7 +17,7 @@ interface SplashScreenProps {
 
 const DECO_EMOJIS = ["🐘", "🦁", "🐬", "🦜", "🐸", "🦋", "🐧", "🦊"];
 
-const SplashScreen = ({ language, onChangeLanguage, startLabel, onStart, onShare }: SplashScreenProps) => {
+const SplashScreen = ({ language, title, onChangeLanguage, startLabel, onStart, onShare }: SplashScreenProps) => {
   // Pre-load voice list as soon as the splash screen mounts (no user gesture needed)
   useEffect(() => preloadVoices(), []);
 
@@ -62,7 +63,7 @@ const SplashScreen = ({ language, onChangeLanguage, startLabel, onStart, onShare
 
       {/* Title */}
       <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-foreground text-center leading-tight">
-        🎵 ABC dos Animais 🎵
+        🎵 {title} 🎵
       </h1>
 
       {/* Decorative animal row (bottom) */}

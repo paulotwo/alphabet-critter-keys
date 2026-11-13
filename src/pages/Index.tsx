@@ -24,6 +24,7 @@ const ROW_COLORS = [
 ];
 
 const LANG_CONFIG: Record<Language, {
+  title: string;
   speechLang: string;
   preposition: string;
   subtitle: string;
@@ -33,6 +34,7 @@ const LANG_CONFIG: Record<Language, {
   shareText: string;
 }> = {
   pt: {
+    title: "ABC dos Animais",
     speechLang: "pt-BR",
     preposition: "de",
     subtitle: "Toque numa letra para ouvir o som!",
@@ -42,6 +44,7 @@ const LANG_CONFIG: Record<Language, {
     shareText: "Venha aprender o alfabeto com animais! 🎵🐾",
   },
   en: {
+    title: "ABC Animals",
     speechLang: "en-US",
     preposition: "for",
     subtitle: "Tap a letter to hear the sound!",
@@ -51,6 +54,7 @@ const LANG_CONFIG: Record<Language, {
     shareText: "Come learn the alphabet with animals! 🎵🐾",
   },
   es: {
+    title: "ABC de los Animales",
     speechLang: "es-ES",
     preposition: "de",
     subtitle: "¡Toca una letra para escuchar el sonido!",
@@ -60,6 +64,7 @@ const LANG_CONFIG: Record<Language, {
     shareText: "¡Ven a aprender el alfabeto con animales! 🎵🐾",
   },
   fr: {
+    title: "ABC des Animaux",
     speechLang: "fr-FR",
     preposition: "de",
     subtitle: "Touche une lettre pour entendre le son !",
@@ -69,6 +74,7 @@ const LANG_CONFIG: Record<Language, {
     shareText: "Viens apprendre l'alphabet avec des animaux ! 🎵🐾",
   },
   it: {
+    title: "ABC degli Animali",
     speechLang: "it-IT",
     preposition: "di",
     subtitle: "Tocca una lettera per sentire il suono!",
@@ -78,6 +84,7 @@ const LANG_CONFIG: Record<Language, {
     shareText: "Vieni a imparare l'alfabeto con gli animali! 🎵🐾",
   },
   de: {
+    title: "ABC der Tiere",
     speechLang: "de-DE",
     preposition: "wie",
     subtitle: "Tippe auf einen Buchstaben, um den Klang zu hören!",
@@ -148,7 +155,7 @@ const Index = () => {
 
   const handleShare = useCallback(async () => {
     const shareData = {
-      title: "ABC dos Animais",
+      title: config.title,
       text: config.shareText,
       url: window.location.href,
     };
@@ -160,7 +167,7 @@ const Index = () => {
     } else {
       await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
     }
-  }, [config.shareText]);
+  }, [config.title, config.shareText]);
 
   const handleChangeLanguage = useCallback((newLang: Language) => {
     setLanguage(newLang);
@@ -184,6 +191,7 @@ const Index = () => {
     return (
       <SplashScreen
         language={language}
+        title={config.title}
         onChangeLanguage={handleChangeLanguage}
         startLabel={config.startLabel}
         onStart={() => setShowSplash(false)}
@@ -195,7 +203,7 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4 p-4 sm:p-6 md:p-8 pt-[calc(1rem+env(safe-area-inset-top))] pb-[calc(1rem+env(safe-area-inset-bottom))] select-none" onContextMenu={(e) => e.preventDefault()}>
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-1">
-        🎵 ABC dos Animais 🎵
+        🎵 {config.title} 🎵
       </h1>
       <p className="text-muted-foreground text-base sm:text-lg mb-2">
         {config.subtitle}
