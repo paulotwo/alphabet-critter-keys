@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { Language } from "@/data/animals";
 import LanguageSelector from "@/components/LanguageSelector";
+import { isNative } from "@/lib/platform";
+import { preloadVoices, unlockSpeech } from "@/lib/speech";
 
 import { Share2 } from "lucide-react";
 
@@ -16,25 +18,18 @@ const DECO_EMOJIS = ["🐘", "🦁", "🐬", "🦜", "🐸", "🦋", "🐧", "�
 
 const SplashScreen = ({ language, onChangeLanguage, startLabel, onStart, onShare }: SplashScreenProps) => {
   // Pre-load voice list as soon as the splash screen mounts (no user gesture needed)
-  useEffect(() => {
-    const loadVoices = () => { window.speechSynthesis.getVoices(); };
-    loadVoices();
-    window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
-    return () => window.speechSynthesis.removeEventListener("voiceschanged", loadVoices);
-  }, []);
+  useEffect(() => preloadVoices(), []);
 
   const handleStart = () => {
     // Fire a silent utterance on the user-gesture click to fully warm up the TTS engine
-    window.speechSynthesis.cancel();
-    const warmup = new SpeechSynthesisUtterance(" ");
-    warmup.volume = 0;
-    window.speechSynthesis.speak(warmup);
+    unlockSpeech();
 
     // Request fullscreen only when NOT running as an installed PWA
+    // (no app nativo a tela é da casca Android)
     const isPwa =
       window.matchMedia("(display-mode: standalone)").matches ||
       (navigator as Navigator & { standalone?: boolean }).standalone === true;
-    if (!isPwa && document.documentElement.requestFullscreen) {
+    if (!isNative && !isPwa && document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen().catch(() => {});
     }
 
@@ -47,7 +42,7 @@ const SplashScreen = ({ language, onChangeLanguage, startLabel, onStart, onShare
       onContextMenu={(e) => e.preventDefault()}
     >
       {/* Language selector top-right */}
-      <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+      <div className="absolute top-[calc(1rem+env(safe-area-inset-top))] right-4 z-20 flex items-center gap-2">
         <button
           onClick={onShare}
           className="rounded-xl bg-card/80 backdrop-blur px-3 py-2 text-lg transition-transform hover:scale-105 active:scale-95 shadow"

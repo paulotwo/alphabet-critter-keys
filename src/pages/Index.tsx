@@ -1,4 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { App as CapacitorApp } from "@capacitor/app";
+import { Share } from "@capacitor/share";
 import { Shuffle } from "lucide-react";
 import AlphabetKey from "@/components/AlphabetKey";
 import LanguageSelector from "@/components/LanguageSelector";
@@ -9,6 +11,8 @@ import { ANIMALS_ES_BY_LETTER } from "@/data/animals_es";
 import { ANIMALS_FR_BY_LETTER } from "@/data/animals_fr";
 import { ANIMALS_IT_BY_LETTER } from "@/data/animals_it";
 import { ANIMALS_DE_BY_LETTER } from "@/data/animals_de";
+import { isNative, SITE_URL } from "@/lib/platform";
+import { speak, stopSpeech } from "@/lib/speech";
 
 const ROW_COLORS = [
   "bg-game-red",
@@ -103,26 +107,26 @@ const Index = () => {
 
   const config = LANG_CONFIG[language];
 
-  const speak = useCallback((text: string, lang: string) => {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voices = window.speechSynthesis.getVoices();
-    const langPrefix = lang.toLowerCase().replace("_", "-");
-    const preferredVoice =
-      voices.find((v) => v.lang.toLowerCase().startsWith(langPrefix)) ??
-      voices.find((v) => v.lang.toLowerCase().startsWith(langPrefix.split("-")[0]));
-
-    if (preferredVoice) {
-      utterance.voice = preferredVoice;
-      utterance.lang = preferredVoice.lang;
-    } else {
-      utterance.lang = lang;
-    }
-
-    utterance.rate = 0.82;
-    utterance.pitch = 1.05;
-    window.speechSynthesis.speak(utterance);
-  }, []);
+  // App nativo: botão voltar do Android (teclado → tela inicial → sai do app)
+  // e silêncio quando o app vai para segundo plano.
+  useEffect(() => {
+    if (!isNative) return;
+    const back = CapacitorApp.addListener("backButton", () => {
+      if (showSplash) {
+        CapacitorApp.exitApp();
+      } else {
+        stopSpeech();
+        setShowSplash(true);
+      }
+    });
+    const state = CapacitorApp.addListener("appStateChange", ({ isActive }) => {
+      if (!isActive) stopSpeech();
+    });
+    return () => {
+      back.then((h) => h.remove());
+      state.then((h) => h.remove());
+    };
+  }, [showSplash]);
 
   const handleKeyPress = useCallback(
     (letter: string) => {
@@ -135,7 +139,7 @@ const Index = () => {
       );
       setTimeout(() => setActiveKey(null), 500);
     },
-    [currentAnimals, speak, config]
+    [currentAnimals, config]
   );
 
   const shuffleAnimals = useCallback(() => {
@@ -148,7 +152,10 @@ const Index = () => {
       text: config.shareText,
       url: window.location.href,
     };
-    if (navigator.share) {
+    if (isNative) {
+      // O WebView não tem `navigator.share` e a URL dele é https://localhost.
+      try { await Share.share({ ...shareData, url: SITE_URL }); } catch { /* user cancelled */ }
+    } else if (navigator.share) {
       try { await navigator.share(shareData); } catch { /* user cancelled */ }
     } else {
       await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
@@ -162,7 +169,7 @@ const Index = () => {
     setTimeout(() => {
       speak(nextConfig.spokenName, nextConfig.speechLang);
     }, 100);
-  }, [speak]);
+  }, []);
 
   const rows = [
     LETTERS.slice(0, 5),
@@ -186,7 +193,7 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-4 p-4 sm:p-6 md:p-8 select-none" onContextMenu={(e) => e.preventDefault()}>
+    <div className="min-h-screen flex flex-col items-center justify-center gap-4 p-4 sm:p-6 md:p-8 pt-[calc(1rem+env(safe-area-inset-top))] pb-[calc(1rem+env(safe-area-inset-bottom))] select-none" onContextMenu={(e) => e.preventDefault()}>
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-1">
         🎵 ABC dos Animais 🎵
       </h1>

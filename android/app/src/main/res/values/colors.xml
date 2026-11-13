@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- hsl(33 100% 97%), a cor "background" de src/index.css -->
+    <color name="gameBackground">#FFF8F0</color>
+</resources>

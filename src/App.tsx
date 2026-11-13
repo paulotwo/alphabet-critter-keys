@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import PwaInstallBanner from "./components/PwaInstallBanner.tsx";
+import { isNative } from "@/lib/platform";
 
 const queryClient = new QueryClient();
 
@@ -14,7 +15,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <PwaInstallBanner />
+      {!isNative && <PwaInstallBanner />}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
